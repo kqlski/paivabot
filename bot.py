@@ -11,7 +11,7 @@ WEATHER_API = os.getenv('WEATHER_API')
 if not BOT_TOKEN or not WEATHER_API:
     print("env variables missing")
 
-filter = ['päivä', 'day', 'sää', 'keli', 'weather', 'ulkona', 'kylmä']
+filter = ['päivä', 'day', 'sää', 'keli', 'weather', 'ulkona', 'kylmä','lämmin','sataa','sade','lunta','lumi']
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -20,9 +20,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def day(update: Update, context: ContextTypes.DEFAULT_TYPE):
     weather = requests.get(
-        f"https://api.openweathermap.org/data/2.5/weather?q=otaniemi&appid={WEATHER_API}&lang=fi")
+        f"https://api.openweathermap.org/data/2.5/weather?q=otaniemi&appid={WEATHER_API}&units=metric&lang=fi")
     weather = weather.json()
-    await update.effective_chat.send_message(weather['weather'][0]['description'])
+    weather_desc=weather['weather'][0]['description']
+    temp=weather['main']['temp']
+    moist=weather['main']['humidity']
+    await update.effective_chat.send_message(f"{weather_desc}: {temp:.1f} °C, {moist} % 💦")
 if __name__ == '__main__':
     application = ApplicationBuilder().token(BOT_TOKEN).build()
     start_handler = CommandHandler('start', start)
