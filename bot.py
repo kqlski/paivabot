@@ -30,6 +30,6 @@ if __name__ == '__main__':
     day_handler = CommandHandler('paiva', day)
     application.add_handler(day_handler)
     message_handler = MessageHandler(filters=(
-        filters.CHAT & filters.Regex(re.compile('|'.join(filter)))), callback=day)
+        filters.CHAT & filters.Regex(re.compile('|'.join(filter),re.IGNORECASE))), callback=day)
     application.add_handler(message_handler)
     application.run_polling()
