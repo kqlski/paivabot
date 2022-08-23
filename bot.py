@@ -57,7 +57,9 @@ async def day(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
         
-    await update.effective_chat.send_message(f"{weather_desc}: {temp:.1f} °C, {moist} % 💦\nPäivä: ")
+
+    await update.effective_chat.send_message(f"{weather_desc}: {temp:.1f} °C, {moist} % 💦\nPäivä: {'Kaunis' if beautiful_pct>50 else 'Ei kaunis'} ({beautiful_pct:.2f})%")
+
 if __name__ == '__main__':
     application = ApplicationBuilder().token(BOT_TOKEN).build()
     start_handler = CommandHandler('start', start)
