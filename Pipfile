@@ -10,6 +10,7 @@ dev="watchfiles 'pipenv run python3 bot.py' ."
 python-telegram-bot = ">=20.0a2"
 python-dotenv = "*"
 requests = "*"
+prisma = "*"
 
 [dev-packages]
 watchfiles = "*"
