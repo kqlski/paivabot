@@ -22,11 +22,11 @@ ENV PATH="/.venv/bin:$PATH"
 
 # Setup workdir
 WORKDIR /bot
-
+COPY ./prisma/schema.prisma schema.prisma
+RUN prisma generate
+RUN mv /tmp/prisma/binaries/engines/efdf9b1183dddfd4258cd181a72125755215ab7b/* .
 # Install app into container
 COPY . .
-#generate prisma
-RUN prisma generate
 
 # Create a non-root user and add permission to access /bot folder
 RUN adduser -u 5678 --disabled-password --gecos "" botuser
@@ -34,4 +34,4 @@ RUN chown -R botuser /bot
 USER botuser
 
 # Run the app
-CMD [ "python3", "bot.py" ]
+CMD ["python3", "bot.py" ]
