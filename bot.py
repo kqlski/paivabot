@@ -57,10 +57,11 @@ async def day(update: Update, context: ContextTypes.DEFAULT_TYPE):
         weather_code_dict[code] = (res, timestamp)
         beautiful_pct = res.votes_yes/(res.votes_no+res.votes_yes)*100
         beautiness = 'Kaunis' if beautiful_pct > 50 else 'Ei kaunis'
+        beautiful_pct = f"{beautiful_pct:.2f}"
     else:
         beautiful_pct = '??'
         beautiness = ""
-    await update.effective_chat.send_message(f"{weather_desc}: {temp:.1f} °C, {moist} % 💦\nPäivä: {beautiness} ({beautiful_pct:.2f})%")
+    await update.effective_chat.send_message(f"{weather_desc}: {temp:.1f} °C, {moist} % 💦\nPäivä: {beautiness} ({beautiful_pct})%")
 
 
 async def start_poll(update: Update, context: ContextTypes.DEFAULT_TYPE):
