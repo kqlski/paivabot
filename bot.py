@@ -53,15 +53,15 @@ async def day(update: Update, context: ContextTypes.DEFAULT_TYPE):
             res, timestamp = await fetch_from_db(code, temp_rounded)
     else:
         res, timestamp = await fetch_from_db(code, temp_rounded)
-    if res:
-        weather_code_dict[code] = (res, timestamp)
-        beautiful_pct = res.votes_yes/(res.votes_no+res.votes_yes)*100
-        beautiness = 'Kaunis' if beautiful_pct > 50 else 'Ei kaunis'
-        beautiful_pct = f"{beautiful_pct:.2f}"
-    else:
-        beautiful_pct = '??'
-        beautiness = ""
-    await update.effective_chat.send_message(f"{weather_desc}: {temp:.1f} °C, {moist} % 💦\nPäivä: {beautiness} ({beautiful_pct})%")
+    if not res:
+        res, timestamp = await add_data_to_db(code, temp_rounded, 1, 1)
+    if not res:
+        await update.effective_chat.send_message(f"Error occurred, send help.")
+    weather_code_dict[code] = (res, timestamp)
+    beautiful_pct = res.votes_yes/(res.votes_no+res.votes_yes)*100
+    beautiness = 'Kaunis' if beautiful_pct > 50 else 'Ei kaunis'
+
+    await update.effective_chat.send_message(f"{weather_desc}: {temp:.1f} °C, {moist} % 💦\nPäivä: {beautiness} ({beautiful_pct:.2f})%")
 
 
 async def start_poll(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -159,9 +159,6 @@ async def fetch_from_db(code: str, temp_rounded: int):
                 'code': code,
                 'temperature': temp_rounded
             })
-    except Exception as e:
-        print(e)
-        return None, datetime.now()-timedelta(minutes=10)
     finally:
         if db.is_connected():
             await db.disconnect()
