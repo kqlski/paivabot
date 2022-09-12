@@ -102,10 +102,10 @@ async def handle_poll_ended(update: Update, context: ContextTypes.DEFAULT_TYPE):
     temp = float(weather['main']['temp'])
     temp_rounded = int(5*(temp//5))
     weather = await add_data_to_db(code, temp_rounded, yes_amount, no_amount)
-    if not weather & code in weather_code_dict:
+    if not weather and code in weather_code_dict:
         del weather_code_dict[code]
     else:
-        weather_code_dict[code] = weather, datetime.now()
+        weather_code_dict[code] = weather
 
 
 async def add_data_to_db(code: int, temp_rounded: int, yes_amount: int, no_amount: int):
