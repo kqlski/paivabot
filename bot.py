@@ -125,8 +125,9 @@ async def add_data_to_db(code: int, temp_rounded: int, yes_amount: int, no_amoun
                 'votes_no': no_amount
             })
         else:
-            res = await db.weathericon.update(where={
-                'id': res.id
+            await db.weathericon.update_many(where={
+                'code': code,
+                'temperature': temp_rounded,
             }, data={
                 'votes_yes': {
                     'increment': yes_amount

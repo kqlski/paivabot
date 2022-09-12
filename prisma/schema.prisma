@@ -10,9 +10,9 @@ generator db {
 }
 
 model WeatherIcon {
-  id         String   @id @default(cuid())
-  code      Int @unique
-  temperature Int @unique
+  code      Int
+  temperature Int
   votes_yes    Int @default(1)
-  votes_no Int  @default(1)
+  votes_no      Int  @default(1)
+  @@id([code,temperature])
 }
