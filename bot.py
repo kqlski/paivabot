@@ -18,7 +18,7 @@ if not BOT_TOKEN or not WEATHER_API:
 weather_code_dict: dict[str, Tuple[WeatherIcon, datetime]] = {}
 poll_created_dict: dict[int, Tuple[int, datetime]] = {}
 
-filter = ['päivä', 'day', 'sää', 'keli', 'weather', 'ulkona',
+word_filter = ['päivä', 'day', 'sää', 'keli', 'weather', 'ulkona',
           'kylmä', 'lämmin', 'sataa', 'sade', 'lunta', 'lumi']
 
 
@@ -173,7 +173,7 @@ if __name__ == '__main__':
     close_handler = CommandHandler(['close', 'sulje'], close_poll)
     poll_hander = PollHandler(handle_poll_ended)
     message_handler = MessageHandler(filters=(
-        filters.CHAT & filters.Regex(re.compile('|'.join(filter), re.IGNORECASE))), callback=day)
+        filters.CHAT & filters.Regex(re.compile('|'.join(word_filter), re.IGNORECASE))), callback=day)
     application.add_handlers(
         [start_handler, vote_handler, day_handler, poll_hander, close_handler, message_handler])
     application.run_polling()
