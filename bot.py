@@ -1,15 +1,14 @@
 from datetime import datetime, timedelta
 import os
 from typing import Tuple
-from prisma import Prisma
-from prisma.models import WeatherIcon
-from random import choices, random
 import re
 import requests
 from dotenv import load_dotenv
 from telegram import Update
 from telegram.constants import ChatType
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, PollHandler, filters
+from prisma import Prisma
+from prisma.models import WeatherIcon
 load_dotenv()
 POLL_TIME = timedelta(minutes=10)
 BOT_TOKEN = os.getenv('BOT_TOKEN')
